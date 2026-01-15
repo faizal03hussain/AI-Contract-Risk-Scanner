@@ -14,7 +14,6 @@ import {
     FileSearch,
     MessageSquare,
 } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function HomePage() {
     return (
@@ -32,7 +31,6 @@ export default function HomePage() {
                         </span>
                     </div>
                     <div className="flex items-center gap-3">
-                        <ThemeToggle />
                         <Link href="/privacy">
                             <Button variant="ghost" size="sm">
                                 Privacy
