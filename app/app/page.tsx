@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Shield, Upload as UploadIcon, Download, ArrowLeft } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { UploadZone } from "@/components/upload-zone";
 import { SimplePDFViewer } from "@/components/pdf-viewer";
 import { RiskScoreCard } from "@/components/risk-score-card";
@@ -370,7 +369,6 @@ function AppContent() {
                                 </Button>
                             </>
                         )}
-                        <ThemeToggle />
                         <Link href="/">
                             <Button variant="ghost" size="sm">
                                 <ArrowLeft className="h-4 w-4 mr-2" />
