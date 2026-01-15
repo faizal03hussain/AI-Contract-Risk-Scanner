@@ -181,31 +181,62 @@ function AppContent() {
         setIsAnalyzing(true);
 
         try {
-            // Simulate PDF text extraction
-            await new Promise((resolve) => setTimeout(resolve, 1500));
+            // Step 1: Extract text from PDF
+            toast({
+                title: "Processing PDF",
+                description: "Extracting text from your contract...",
+            });
 
-            const demoPages = Array.from({ length: 8 }, (_, i) => ({
-                page: i + 1,
-                text: `Page ${i + 1} content...`,
-            }));
+            const formData = new FormData();
+            formData.append("file", file);
 
-            setPdfText("Demo contract text", demoPages);
+            const extractResponse = await fetch("/api/extract", {
+                method: "POST",
+                body: formData,
+            });
 
-            // Simulate analysis
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+            if (!extractResponse.ok) {
+                const error = await extractResponse.json();
+                throw new Error(error.error || "Failed to extract PDF text");
+            }
 
-            setAnalysis(DEMO_CONTRACT_DATA);
+            const { fullText, pages } = await extractResponse.json();
+            setPdfText(fullText, pages);
+
+            // Step 2: Analyze with OpenRouter
+            toast({
+                title: "Analyzing Contract",
+                description: "AI is reviewing your contract for risks...",
+            });
+
+            const analyzeResponse = await fetch("/api/analyze", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ fullText, pages }),
+            });
+
+            if (!analyzeResponse.ok) {
+                const error = await analyzeResponse.json();
+                throw new Error(error.error || "Failed to analyze contract");
+            }
+
+            const { analysis } = await analyzeResponse.json();
+            setAnalysis(analysis);
 
             toast({
                 title: "Analysis Complete",
-                description: "Your contract has been analyzed successfully",
+                description: `Found ${analysis.clauses.length} clauses. Risk score: ${analysis.overall_risk_score}/100`,
             });
-        } catch (error) {
+        } catch (error: any) {
+            console.error("Upload error:", error);
             toast({
                 title: "Analysis Failed",
-                description: "Please try again",
+                description: error.message || "Please try again",
                 variant: "destructive",
             });
+            setShowUpload(true);
         } finally {
             setIsAnalyzing(false);
         }
@@ -248,27 +279,32 @@ function AppContent() {
         setIsChatting(true);
 
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1500));
+            const response = await fetch("/api/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    question: message,
+                    pages: useAppStore.getState().pages,
+                }),
+            });
 
-            // Demo response
-            const demoResponse = {
-                role: "assistant" as const,
-                content: `Based on your contract, ${message.toLowerCase().includes("terminate")
-                    ? "the client can terminate at any time without cause (see Page 1). This is unfavorable - you should negotiate for at least 30 days notice."
-                    : message.toLowerCase().includes("ip") || message.toLowerCase().includes("intellectual")
-                        ? "you transfer ALL intellectual property rights, including pre-existing IP (see Page 5). This is highly risky - you should limit it to project-specific work only."
-                        : "I found relevant information in your contract. Check the citations for details."}`,
-                citations: [
-                    {
-                        page: message.toLowerCase().includes("terminate") ? 1 : 5,
-                        excerpt: message.toLowerCase().includes("terminate")
-                            ? "Client may terminate this agreement at any time, for any reason..."
-                            : "All work product, ideas, and inventions created during the term...",
-                    },
-                ],
-            };
+            if (!response.ok) {
+                throw new Error("Failed to get answer");
+            }
 
-            addChatMessage(demoResponse);
+            const { answer } = await response.json();
+            addChatMessage({
+                role: "assistant",
+                content: answer.answer,
+                citations: answer.citations,
+            });
+        } catch (error) {
+            addChatMessage({
+                role: "assistant",
+                content: "I'm sorry, I encountered an error. Please try again.",
+            });
         } finally {
             setIsChatting(false);
         }
