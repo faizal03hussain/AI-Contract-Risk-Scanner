@@ -5,7 +5,8 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Shield, Upload as UploadIcon, Download, Settings, ArrowLeft } from "lucide-react";
+import { Shield, Upload as UploadIcon, Download, ArrowLeft } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { UploadZone } from "@/components/upload-zone";
 import { SimplePDFViewer } from "@/components/pdf-viewer";
 import { RiskScoreCard } from "@/components/risk-score-card";
@@ -307,13 +308,13 @@ function AppContent() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
+        <div className="min-h-screen bg-mesh-light dark:bg-mesh-dark transition-colors duration-500">
             {/* Navigation */}
-            <nav className="border-b border-white/10 glass-dark sticky top-0 z-50">
+            <nav className="border-b border-purple-200/30 dark:border-purple-500/20 backdrop-blur-xl bg-white/80 dark:bg-purple-950/30 sticky top-0 z-50">
                 <div className="container mx-auto px-4 py-3 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2">
                         <Shield className="h-6 w-6 text-primary" />
-                        <span className="text-lg font-bold text-gradient">ContractLens AI</span>
+                        <span className="text-lg font-bold text-gradient-royal">ContractLens AI</span>
                     </Link>
 
                     <div className="flex items-center gap-3">
@@ -333,6 +334,7 @@ function AppContent() {
                                 </Button>
                             </>
                         )}
+                        <ThemeToggle />
                         <Link href="/">
                             <Button variant="ghost" size="sm">
                                 <ArrowLeft className="h-4 w-4 mr-2" />
