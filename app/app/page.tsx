@@ -286,7 +286,7 @@ function AppContent() {
                 },
                 body: JSON.stringify({
                     question: message,
-                    pages: useAppStore.getState().pages,
+                    pages: useAppStore.getState().pdfPages,
                 }),
             });
 
