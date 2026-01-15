@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 
-// Configure PDF.js worker
-if (typeof window === "undefined") {
-    // @ts-ignore - worker module doesn't have types
-    const workerSrc = await import("pdfjs-dist/legacy/build/pdf.worker.mjs");
-    pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc;
-}
+// Configure PDF.js worker with CDN
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
