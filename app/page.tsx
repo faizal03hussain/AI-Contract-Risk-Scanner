@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,23 +14,25 @@ import {
     FileSearch,
     MessageSquare,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function HomePage() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
+        <div className="min-h-screen bg-mesh-light dark:bg-mesh-dark transition-colors duration-500">
             {/* Animated background gradient */}
             <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-10" />
 
             {/* Navigation */}
-            <nav className="relative z-10 border-b border-white/10 glass-dark">
+            <nav className="relative z-10 border-b border-purple-200/30 dark:border-purple-500/20 backdrop-blur-xl bg-white/80 dark:bg-purple-950/30">
                 <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <Shield className="h-8 w-8 text-primary" />
-                        <span className="text-xl font-bold text-gradient">
+                        <span className="text-xl font-bold text-gradient-royal">
                             ContractLens AI
                         </span>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
+                        <ThemeToggle />
                         <Link href="/privacy">
                             <Button variant="ghost" size="sm">
                                 Privacy
@@ -57,7 +61,7 @@ export default function HomePage() {
                     {/* Main Heading */}
                     <h1 className="text-5xl md:text-7xl font-bold leading-tight">
                         Understand Your{" "}
-                        <span className="text-gradient">Contract Risks</span>
+                        <span className="text-gradient-royal">Contract Risks</span>
                         <br />
                         in 30 Seconds
                     </h1>
@@ -106,7 +110,7 @@ export default function HomePage() {
                 <div className="max-w-6xl mx-auto">
                     <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
                         Everything You Need to{" "}
-                        <span className="text-gradient">Negotiate Better</span>
+                        <span className="text-gradient-royal">Negotiate Better</span>
                     </h2>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -199,7 +203,7 @@ export default function HomePage() {
 
             {/* CTA Section */}
             <section className="relative z-10 container mx-auto px-4 py-20">
-                <Card className="glass border-primary/30 max-w-4xl mx-auto">
+                <Card className="glass-light dark:glass-royal border-primary/40 max-w-4xl mx-auto">
                     <CardContent className="p-12 text-center space-y-6">
                         <h2 className="text-3xl md:text-4xl font-bold">
                             Ready to Analyze Your Contract?
@@ -219,7 +223,7 @@ export default function HomePage() {
             </section>
 
             {/* Footer */}
-            <footer className="relative z-10 border-t border-white/10 mt-20">
+            <footer className="relative z-10 border-t border-purple-200/30 dark:border-purple-500/20 mt-20 backdrop-blur-xl bg-white/60 dark:bg-purple-950/20">
                 <div className="container mx-auto px-4 py-8">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-2">
@@ -227,13 +231,19 @@ export default function HomePage() {
                             <span>© 2026 ContractLens AI. For informational purposes only.</span>
                         </div>
                         <div className="flex items-center gap-6">
-                            <Link href="/privacy" className="hover:text-foreground transition-colors">
+                            <Link href="/privacy" className="hover:text-primary transition-colors">
                                 Privacy Policy
                             </Link>
-                            <Link href="/terms" className="hover:text-foreground transition-colors">
+                            <Link href="/terms" className="hover:text-primary transition-colors">
                                 Terms of Service
                             </Link>
                         </div>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-purple-200/20 dark:border-purple-500/10 text-center">
+                        <p className="text-xs text-muted-foreground">
+                            Crafted with excellence by{" "}
+                            <span className="text-gradient-royal font-semibold">Faizal Hussain</span>
+                        </p>
                     </div>
                 </div>
             </footer>

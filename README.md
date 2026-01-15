@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ContractLens AI - AI Contract Risk Scanner
 
 <div align="center">
@@ -300,3 +301,7 @@ For questions or feedback:
 **Built with ❤️ for safer contracts**
 
 </div>
+=======
+# AI-Contract-Risk-Scanner
+AI Contract Risk Scanner
+>>>>>>> c152a15c223f1858e0aebc324eef802b0f66660b

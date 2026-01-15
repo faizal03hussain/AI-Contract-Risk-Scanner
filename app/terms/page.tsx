@@ -1,32 +1,38 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, ArrowLeft, AlertTriangle } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function TermsPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
-            <nav className="border-b border-white/10 glass-dark">
+        <div className="min-h-screen bg-mesh-light dark:bg-mesh-dark transition-colors duration-500">
+            <nav className="border-b border-purple-200/30 dark:border-purple-500/20 backdrop-blur-xl bg-white/80 dark:bg-purple-950/30">
                 <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2">
                         <Shield className="h-8 w-8 text-primary" />
-                        <span className="text-xl font-bold text-gradient">
+                        <span className="text-xl font-bold text-gradient-royal">
                             ContractLens AI
                         </span>
                     </Link>
-                    <Link href="/">
-                        <Button variant="ghost" size="sm">
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Home
-                        </Button>
-                    </Link>
+                    <div className="flex items-center gap-3">
+                        <ThemeToggle />
+                        <Link href="/">
+                            <Button variant="ghost" size="sm">
+                                <ArrowLeft className="mr-2 h-4 w-4" />
+                                Back to Home
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </nav>
 
             <div className="container mx-auto px-4 py-12 max-w-4xl">
-                <Card className="glass border-white/10">
+                <Card className="glass-light dark:glass-royal">
                     <CardHeader>
-                        <CardTitle className="text-3xl">Terms of Service</CardTitle>
+                        <CardTitle className="text-3xl text-gradient-royal">Terms of Service</CardTitle>
                     </CardHeader>
                     <CardContent className="prose prose-invert max-w-none space-y-6">
                         <p className="text-muted-foreground">
@@ -169,8 +175,9 @@ export default function TermsPage() {
                         <section>
                             <h2 className="text-2xl font-semibold mb-3">Contact</h2>
                             <p className="text-muted-foreground">
-                                If you have questions about these terms, please visit our GitHub
-                                repository.
+                                If you have questions about these terms, please contact{" "}
+                                <span className="text-gradient-royal font-semibold">Faizal Hussain</span>{" "}
+                                via our GitHub repository.
                             </p>
                         </section>
                     </CardContent>
