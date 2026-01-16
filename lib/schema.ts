@@ -15,6 +15,7 @@ export const ClauseType = z.enum([
     "DATA_PRIVACY",
     "WARRANTY",
     "NON_COMPETE",
+    "INSURANCE",
     "OTHER",
 ]);
 export type ClauseType = z.infer<typeof ClauseType>;
