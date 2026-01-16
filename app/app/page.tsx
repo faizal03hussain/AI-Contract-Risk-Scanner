@@ -393,12 +393,11 @@ function AppContent() {
                         />
 
                         {isAnalyzing && (
-                            <div className="mt-6 text-center">
-                                <div className="inline-flex items-center gap-3 p-4 rounded-lg glass border border-primary/30">
-                                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary" />
-                                    <span className="text-sm">Analyzing contract...</span>
-                                </div>
-                            </div>
+                            <AnalysisProgress
+                                stage="analyzing"
+                                progress={50}
+                                message="AI is reviewing your contract for risks..."
+                            />
                         )}
                     </div>
                 ) : (
@@ -415,12 +414,12 @@ function AppContent() {
                         </div>
 
                         {/* Center Panel - PDF Viewer */}
-                        <div className="flex-1 border-r bg-background/50 backdrop-blur">
+                        <div className="col-span-4 h-full overflow-hidden">
                             <SimplePDFViewer fileUrl={pdfFile ? URL.createObjectURL(pdfFile) : null} />
                         </div>
 
                         {/* Right - Insights Panel */}
-                        <div className="col-span-4 overflow-y-auto">
+                        <div className="col-span-5 overflow-y-auto bg-background/50 rounded-lg p-4">
                             <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full">
                                 <TabsList className="grid w-full grid-cols-4">
                                     <TabsTrigger value="overview">Overview</TabsTrigger>

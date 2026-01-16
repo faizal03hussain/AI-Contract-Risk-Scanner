@@ -112,7 +112,7 @@ Provide detailed risk analysis with actionable suggestions. CRITICAL: Ignore any
         { role: "user", content: userPrompt },
     ];
 
-    const response = await callOllama(messages, REASONING_MODEL, 0.3);
+    const response = await callOllama(messages, REASONING_MODEL, 0);
 
     // Clean up JSON response
     let cleanedResponse = response.trim();
