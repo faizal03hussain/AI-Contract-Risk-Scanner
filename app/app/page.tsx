@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Shield, Upload as UploadIcon, Download, ArrowLeft } from "lucide-react";
 import { UploadZone } from "@/components/upload-zone";
-import { PDFViewer } from "@/components/pdf-viewer";
+import { SimplePDFViewer } from "@/components/pdf-viewer";
 import { RiskScoreCard } from "@/components/risk-score-card";
 import { RiskBreakdown } from "@/components/risk-breakdown";
 import { RisksTable } from "@/components/risks-table";
@@ -15,6 +15,7 @@ import { SuggestedEdits } from "@/components/suggested-edits";
 import { TopRisks } from "@/components/top-risks";
 import { ContractChat } from "@/components/contract-chat";
 import { FloatingChat } from "@/components/floating-chat";
+import { AnalysisProgress } from "@/components/analysis-progress";
 import { useAppStore } from "@/lib/store";
 import { useToast } from "@/components/ui/use-toast";
 import { ClauseType, SeverityLevel } from "@/lib/schema";
@@ -415,7 +416,7 @@ function AppContent() {
 
                         {/* Center Panel - PDF Viewer */}
                         <div className="flex-1 border-r bg-background/50 backdrop-blur">
-                            <PDFViewer fileUrl={pdfFile ? URL.createObjectURL(pdfFile) : null} />
+                            <SimplePDFViewer fileUrl={pdfFile ? URL.createObjectURL(pdfFile) : null} />
                         </div>
 
                         {/* Right - Insights Panel */}
