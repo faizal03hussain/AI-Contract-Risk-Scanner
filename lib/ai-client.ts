@@ -187,3 +187,36 @@ Always cite the page numbers. Output JSON: {"answer": "string", "citations": [{"
     const response = await callOllama(messages, FAST_MODEL, 0.2);
     return JSON.parse(response);
 }
+
+/**
+ * Validate if document is a contract or bond
+ */
+export async function validateDocumentType(firstPageText: string): Promise<{
+    isValid: boolean;
+    reason: string;
+}> {
+    const systemPrompt = `You are a document classifier. Determine if the text is from a legal contract or bond document.
+Output ONLY valid JSON: {"is_contract": true/false, "confidence": 0-1, "reason": "brief explanation"}`;
+
+    const userPrompt = `Is this a legal contract or bond document?\n\n${firstPageText.substring(0, 1500)}`;
+
+    const messages: OllamaMessage[] = [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+    ];
+
+    try {
+        const response = await callOllama(messages, FAST_MODEL, 0.1);
+        const cleaned = response.trim().replace(/```json\n?/g, "").replace(/```\n?$/g, "");
+        const result = JSON.parse(cleaned);
+
+        return {
+            isValid: result.is_contract === true && result.confidence > 0.6,
+            reason: result.reason || "Document classification completed",
+        };
+    } catch (error) {
+        // If validation fails, allow document (fail open)
+        console.error("Document validation error:", error);
+        return { isValid: true, reason: "Validation check skipped" };
+    }
+}

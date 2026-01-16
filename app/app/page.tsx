@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Shield, Upload as UploadIcon, Download, ArrowLeft } from "lucide-react";
 import { UploadZone } from "@/components/upload-zone";
-import { SimplePDFViewer } from "@/components/pdf-viewer";
+import { PDFViewer } from "@/components/pdf-viewer";
 import { RiskScoreCard } from "@/components/risk-score-card";
 import { RiskBreakdown } from "@/components/risk-breakdown";
 import { RisksTable } from "@/components/risks-table";

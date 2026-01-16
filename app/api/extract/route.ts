@@ -40,6 +40,22 @@ export async function POST(request: NextRequest) {
         // Parse PDF
         const data = await pdfParse(buffer);
 
+        // Validate document type before processing
+        const { validateDocumentType } = await import("@/lib/ai-client");
+        const firstPageText = data.text.substring(0, 2000);
+        const validation = await validateDocumentType(firstPageText);
+
+        if (!validation.isValid) {
+            return NextResponse.json(
+                {
+                    error: "Invalid document type",
+                    details: "This doesn't appear to be a legal contract or bond document. Please upload contracts or bonds only.",
+                    reason: validation.reason
+                },
+                { status: 400 }
+            );
+        }
+
         // Split text into pages (approximation based on page count)
         const textPerPage = data.text.length / data.numpages;
         const pages = [];
