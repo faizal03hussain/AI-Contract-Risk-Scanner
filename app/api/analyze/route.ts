@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { analyzeRisk } from "@/lib/openrouter";
+import { analyzeRisk } from "@/lib/ai-client";
 import { ContractAnalysis, ContractAnalysisSchema } from "@/lib/schema";
 import { checkRateLimit } from "@/lib/rate-limit";
 

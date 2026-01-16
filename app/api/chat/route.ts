@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { answerQuestion } from "@/lib/openrouter";
+import { answerQuestion } from "@/lib/ai-client";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
