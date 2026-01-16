@@ -16,23 +16,23 @@ export const ClauseType = z.enum([
     "WARRANTY",
     "NON_COMPETE",
     "INSURANCE",
+    "DISPUTE_RESOLUTION",
     "OTHER",
 ]);
 export type ClauseType = z.infer<typeof ClauseType>;
 
 // Evidence schema
 export const EvidenceSchema = z.object({
-    page: z.number().int().positive(),
+    page: z.number().int().min(1),
     excerpt: z.string(),
 });
 export type Evidence = z.infer<typeof EvidenceSchema>;
 
-// Top risk schema
 export const TopRiskSchema = z.object({
     title: z.string(),
     severity: SeverityLevel,
     reason: z.string(),
-    page: z.number().int().positive(),
+    page: z.number().int().min(1),
 });
 export type TopRisk = z.infer<typeof TopRiskSchema>;
 
