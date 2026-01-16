@@ -2,9 +2,9 @@ import { ContractAnalysis } from "./schema";
 
 // Environment variables
 const OLLAMA_API_KEY = process.env.OLLAMA_CLOUD_API_KEY!;
-const OLLAMA_API_URL = process.env.OLLAMA_API_URL || "https://api.ollama.cloud/v1";
-const FAST_MODEL = process.env.OLLAMA_MODEL_FAST || "llama3.1:8b";
-const REASONING_MODEL = process.env.OLLAMA_MODEL_REASONING || "llama3.1:70b";
+const OLLAMA_HOST = "https://ollama.com";
+const FAST_MODEL = process.env.OLLAMA_MODEL_FAST || "gpt-oss:120b";
+const REASONING_MODEL = process.env.OLLAMA_MODEL_REASONING || "gpt-oss:120b";
 
 interface OllamaMessage {
     role: "system" | "user" | "assistant";
@@ -16,7 +16,7 @@ async function callOllama(
     model: string,
     temperature: number = 0.3
 ): Promise<string> {
-    const response = await fetch(`${OLLAMA_API_URL}/chat/completions`, {
+    const response = await fetch(`${OLLAMA_HOST}/api/chat`, {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${OLLAMA_API_KEY}`,
@@ -25,8 +25,11 @@ async function callOllama(
         body: JSON.stringify({
             model,
             messages,
-            temperature,
-            response_format: { type: "json_object" },
+            options: {
+                temperature,
+            },
+            stream: false,
+            format: "json",
         }),
     });
 
@@ -36,7 +39,7 @@ async function callOllama(
     }
 
     const data = await response.json();
-    return data.choices[0].message.content;
+    return data.message.content;
 }
 
 /**
