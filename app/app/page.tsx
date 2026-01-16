@@ -14,6 +14,7 @@ import { RisksTable } from "@/components/risks-table";
 import { SuggestedEdits } from "@/components/suggested-edits";
 import { TopRisks } from "@/components/top-risks";
 import { ContractChat } from "@/components/contract-chat";
+import { FloatingChat } from "@/components/floating-chat";
 import { useAppStore } from "@/lib/store";
 import { useToast } from "@/components/ui/use-toast";
 import { ClauseType, SeverityLevel } from "@/lib/schema";
@@ -412,14 +413,9 @@ function AppContent() {
                             )}
                         </div>
 
-                        {/* Center - PDF Viewer */}
-                        <div className="col-span-5">
-                            <SimplePDFViewer
-                                pdfFile={pdfFile}
-                                currentPage={currentPage}
-                                totalPages={8}
-                                onPageChange={setCurrentPage}
-                            />
+                        {/* Center Panel - PDF Viewer */}
+                        <div className="flex-1 border-r bg-background/50 backdrop-blur">
+                            <PDFViewer fileUrl={pdfFile ? URL.createObjectURL(pdfFile) : null} />
                         </div>
 
                         {/* Right - Insights Panel */}
