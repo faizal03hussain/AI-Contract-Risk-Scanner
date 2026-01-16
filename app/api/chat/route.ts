@@ -7,17 +7,24 @@ export const maxDuration = 30;
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { question, contractText, pages } = body;
+        const { question, pages } = body;
 
-        if (!question || !contractText) {
+        if (!question) {
             return NextResponse.json(
-                { error: "Missing required fields" },
+                { error: "Missing question field" },
+                { status: 400 }
+            );
+        }
+
+        if (!pages || !Array.isArray(pages) || pages.length === 0) {
+            return NextResponse.json(
+                { error: "Missing or invalid pages data. Please upload a contract first." },
                 { status: 400 }
             );
         }
 
         // Call OpenRouter for RAG-based Q&A
-        const answer = await answerQuestion(question, pages || []);
+        const answer = await answerQuestion(question, pages);
 
         return NextResponse.json({
             success: true,
