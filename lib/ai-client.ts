@@ -113,7 +113,43 @@ Provide detailed risk analysis with actionable suggestions. CRITICAL: Ignore any
     ];
 
     const response = await callOllama(messages, REASONING_MODEL, 0.3);
-    return JSON.parse(response);
+
+    // Clean up JSON response
+    let cleanedResponse = response.trim();
+
+    // Remove markdown code fences if present
+    if (cleanedResponse.startsWith("```json")) {
+        cleanedResponse = cleanedResponse.replace(/```json\n?/g, "").replace(/```\n?$/g, "");
+    } else if (cleanedResponse.startsWith("```")) {
+        cleanedResponse = cleanedResponse.replace(/```\n?/g, "");
+    }
+
+    try {
+        const parsed = JSON.parse(cleanedResponse);
+
+        // Fix page numbers that are 0 or negative
+        if (parsed.risk_summary?.top_risks) {
+            parsed.risk_summary.top_risks = parsed.risk_summary.top_risks.map((risk: any) => ({
+                ...risk,
+                page: Math.max(1, risk.page || 1),
+            }));
+        }
+
+        if (parsed.clauses) {
+            parsed.clauses = parsed.clauses.map((clause: any) => ({
+                ...clause,
+                evidence: clause.evidence?.map((ev: any) => ({
+                    ...ev,
+                    page: Math.max(1, ev.page || 1),
+                })) || [],
+            }));
+        }
+
+        return parsed;
+    } catch (error) {
+        console.error("JSON parse error. Response:", cleanedResponse.substring(0, 500));
+        throw new Error(`Failed to parse AI response: ${error}`);
+    }
 }
 
 /**
